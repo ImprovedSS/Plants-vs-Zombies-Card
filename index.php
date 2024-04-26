@@ -1,3 +1,11 @@
+<?php
+
+require_once "./php/conexao.php";
+session_start();
+
+
+?>
+
 <!doctype html>
 <html lang="pt-br">
 
@@ -8,10 +16,101 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./css/media.css">
-    <script src="./javascript/two.js"></script>
+    <script src="./javascript/two.js" defer></script>
+    <script src="./javascript/modal.js" defer></script>
+    <script src="./javascript/validate.js" defer></script>
 </head>
 
 <body>
+    <section id="modal-interaction">
+        <div id="fade" class="hide"></div>
+        <div id="fade2" class="hide"></div>
+        <div id="modal" class="hide">
+            <div class="modal-header">
+                <h2>Login</h2>
+                <button id="btn-fechar">Fechar</button>
+            </div>
+            <div class="modal-content">
+                <form action="./php/verificarConta.php" id="form-entrar" method="POST">
+                    <div class="modal-input">
+                        <input type="email" class="modal-input-campo" name="email" placeholder="Email" autocomplete="off" required> 
+                        <div class="modal-input-erro">
+                            <p>Insira um email válido.</p>
+                        </div>
+                    </div>
+                    <div class="modal-input modal-input-password">
+                        <input type="password" class="modal-input-campo" name="senha" placeholder="Senha" autocomplete="off" id="modal-input-password" required>
+                        <i class="fa-solid fa-eye" id="modal-btn-password"></i>
+                        <div class="modal-input-erro">
+                            <p>Insira uma senha com no mínimo 8 caracteres.</p>
+                        </div>
+                    </div>
+                    <div class="modal-submit-btn">
+                        <input type="submit" name="entrar-submit" value="Entrar">
+                    </div>
+                    <div class="modal-esqueceu">
+                        <a href="">Esqueceu sua senha?</a>
+                    </div>
+                    <div class="modal-divisao">
+                        <hr>
+                    </div>
+                    <div class="modal-ir-cadastro">
+                        <p>Ainda não tem uma conta? <span id="btn-ir-cadastrar">Cadastrar-se</span></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="modal-cadastro" class="hide">
+            <div class="modal-header-cadastro">
+                <h2>Cadastro</h2>
+                <button id="btn-fechar-cadastro">Fechar</button>
+            </div>
+            <div class="modal-content-cadastro">
+                <form action="./php/realizarCadastro.php" id="form-cadastrar" method="POST" novalidate>
+                    <div class="modal-cadastro-input">
+                        <input type="text" class="modal-cadastro-input-campo" name="usuario-cadastro" placeholder="Usuário" id="cadastro-usuario" autocomplete="off" onblur="validateCadastroUsuario()" required>
+                        <div class="modal-cadastro-erro-usuario modal-cadastro-input-erro">
+                            <p class="two-lines"><i class="fa-solid fa-circle list-icon"></i>Insira no mínimo 2 caracteres. São permitidos: *_. </p>
+                        </div>
+                    </div>
+                    <div class="modal-cadastro-input">
+                        <input type="email" class="modal-cadastro-input-campo" name="email-cadastro" placeholder="Email" id="cadastro-email" autocomplete="off" onblur="validateCadastroEmail()" required>
+                        <div class="modal-cadastro-erro-email modal-cadastro-input-erro">
+                            <p class="one-line"><i class="fa-solid fa-circle list-icon"></i> Insira um email válido.</p>
+                        </div>
+                    </div>
+                    <div class="modal-cadastro-input modal-input-password">
+                        <input type="password" class="modal-cadastro-input-campo" name="senha-cadastro" placeholder="Senha" id="cadastro-senha" autocomplete="off" onblur="validateCadastroSenha()" required>
+                        <i class="fa-solid fa-eye pass-eye" id="btn-cadastro-senha"></i>
+                        <div class="modal-cadastro-erro-senha modal-cadastro-input-erro">
+                            <p class="modal-cadastro-erro-senha-item one-line" id="senha-item1"><i class="fa-solid fa-circle list-icon"></i>A senha deve conter no mínimo 8 caracteres.</p>
+                            <p class="modal-cadastro-erro-senha-item two-lines" id="senha-item3"><i class="fa-solid fa-circle list-icon"></i>A senha deve conter no mínimo uma letra maiúscula.</p>
+                            <p class="modal-cadastro-erro-senha-item two-lines" id="senha-item2"><i class="fa-solid fa-circle list-icon"></i>A senha deve conter no mínimo uma letra minúscula.</p>
+                            <p class="modal-cadastro-erro-senha-item two-lines" id="senha-item4"><i class="fa-solid fa-circle list-icon"></i>A senha deve conter no mínimo um caractere especial: (*_.). </p>
+                            <p class="modal-cadastro-erro-senha-item one-line" id="senha-item5"><i class="fa-solid fa-circle list-icon"></i>A senha deve conter no mínimo um número.<p>
+                            <p class="modal-cadastro-erro-senha-item one-line" id="senha-item6"><i class="fa-solid fa-circle list-icon"></i>A senha não pode conter espaços.</p>
+                        </div>
+                    </div>
+                    <div class="modal-cadastro-input modal-input-password">
+                        <input type="password" class="modal-cadastro-input-campo" name="confirmar-senha-cadastro" placeholder="Confirmar Senha" id="cadastro-confirmar-senha" autocomplete="off" onblur="validateCadastroConfirmarSenha()" required>
+                        <i class="fa-solid fa-eye pass-eye" id="btn-cadastro-confirmar-senha"></i>
+                        <div class="modal-cadastro-erro-confirmar-senha modal-cadastro-input-erro">
+                            <p class="one-line"><i class="fa-solid fa-circle list-icon"></i>As senhas devem ser compatíveis.</p>
+                        </div>
+                    </div>
+                    <div class="modal-submit-btn-cadastro">
+                        <input type="submit" name="cadastrar-submit" value="Cadastrar">
+                    </div>
+                    <div class="modal-ir-entrar">
+                        <p> Já tem uma conta? <span id="btn-ir-entrar">Entrar</span></p>
+                    </div>
+    
+                </form>
+    
+            </div>
+        </div>
+    </section>
+
     <header>
         <section class="nav-menu" id="menu">
             <nav>
@@ -36,7 +135,7 @@
                     <div class="menu-right">
                         <ul>
                             <li><a href="#historia">História</a></li>
-                            <li><a href="./embreve.html" id="btn-entrar">Entrar</a></li>
+                            <li><button id="btn-entrar">Entrar</button></li>
                         </ul>
                     </div>
                 </div>
@@ -148,12 +247,11 @@
                         </p>
                     </div>
 
-                    <a href="#jogos">
-                        <div class="btn-redirecionamento-jogos">
-                            Jogar >
-                        </div>
+                    <a href="#jogos" class="btn-redirecionamento-jogos">
+                        Jogar >
                     </a>
                 </div>
+
     
                 <div class="redirecionamento-entrar">
                     <div class="content-redirecionamento-entrar">   
@@ -162,11 +260,9 @@
                         </p>
                     </div>
     
-                    <a href="./embreve.html">
-                        <div class="btn-redirecionamento-entrar">
-                            Colecionar >
-                        </div>
-                    </a>
+                    <div class="btn-redirecionamento-entrar" id="btn-redirecionamento-entrar">
+                        Colecionar >
+                    </div>
                 </div>
             </div>
         </section>

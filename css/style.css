@@ -11,6 +11,14 @@ html {
     scroll-behavior: smooth;
 }
 
+body {
+    overflow-y: scroll;
+}
+
+body.hide {
+    overflow-y: hidden;
+}
+
 .no-interaction {
     pointer-events: none;
     user-select: none;
@@ -87,7 +95,11 @@ header {
     padding-right: -2.5%
 } */
 
-.menu-right a:hover {
+.menu-right ul {
+    align-items: center;
+}
+
+.menu-right a:hover, .menu-right button:hover {
     color: rgba(150,102,160,255);
     transition: 0.3s all;
 }
@@ -108,6 +120,9 @@ header {
     border: 2px solid rgba(150,102,160,255);
     border-radius: 8px;
     padding: 10px 30px;
+    background: white;
+    transition: 0.5s;
+    cursor: pointer;
 }
 
 #btn-entrar:hover {
@@ -285,22 +300,25 @@ header {
 .redirecionamento-jogos a {
     color: white;
     text-decoration: none;
+    text-align: center;
 }
 
 .btn-redirecionamento-jogos {
+    display: flex;
     text-align: center;
     align-self: center;
+    justify-content: center;
     font-size: 25px;
     border: 3px solid rgba(144,196,23,255);
     padding: 15px;
     border-radius: 20px;
     width: 35%;
     margin: 0 auto 25% auto;
+    transition: 0.5s;
 }
 
 .btn-redirecionamento-jogos:hover {
     background: rgba(144,196,23,255); 
-    transition: 0.2s;
     padding: 30px;
     width: 50%;
     margin-bottom: 20%;
@@ -325,11 +343,6 @@ header {
     margin: 10% 0 0 0;
 }
 
-.redirecionamento-entrar a {
-    color: white;
-    text-decoration: none;
-}
-
 .btn-redirecionamento-entrar {
     text-align: center;
     align-self: center;
@@ -339,11 +352,12 @@ header {
     border-radius: 20px;
     width: 35%;
     margin: 0 auto 25% auto;
+    cursor: pointer;
+    transition: 0.5s;
 }
 
 .btn-redirecionamento-entrar:hover {
     background: rgba(150,102,160,255);
-    transition: 0.2s;
     padding: 30px;
     width: 50%;
     margin-bottom: 20%;
@@ -570,14 +584,343 @@ header {
     background: rgb(34, 34, 34);
 }
 
+/* modal area */
+
+#fade,
+#fade2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+
+#modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    background: rgba(150,102,160,255);
+    color: white;
+    width: 500px;
+    max-width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(150,102,160,255);
+    padding-top: 10px;
+}
+
+#modal,
+#modal-cadastro,
+#fade,
+#fade2 {
+    opacity: 1;
+    pointer-events: all;
+    transition: 0.5s;
+}
+
+#modal.hide,
+#modal-cadastro.hide,
+#fade.hide,
+#fade2.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+html.hide {
+    overflow-y: hidden;
+}
+
+#modal.hide,
+#modal-cadastro.hide {
+    top: 100%;
+}
+
+#btn-fechar {
+    padding: 10px 30px;
+    border: 2px solid white;
+    border-radius: 8px;
+    color: white;
+    background: rgba(150,102,160,255);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+#btn-fechar:hover {
+    background: rgb(229,203,238);
+    border: 2px solid rgb(229,203,238);
+    color: rgba(150,102,160,255);
+    box-shadow: 0px 0px 5px rgb(229,203,238);
+}
 
 
+.modal-header,
+.modal-header-cadastro {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
 
+.modal-header h2,
+.modal-header-cadastro h2 {
+    margin-left: 50%;
+    transform: translate(-50%, -0%);
+}
 
+.modal-content,
+.modal-content-cadastro {
+    margin: 0 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /*facultativo*/
+    /* justify-content: space-between */
 
+}
 
+.modal-content .modal-input {
+    margin-bottom: 20px;
+}
 
+.modal-content .modal-input input {
+    outline: none;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+    background: rgb(229,203,238);
+    color: rgba(150,102,160,255);
+    transition: 0.3s all;
+}
 
+.modal-content .modal-input input:focus {
+    box-shadow: 0 0 5px rgb(229,203,238);
+}
+
+.modal-content .modal-input input::placeholder {
+    color: rgba(150,102,160,255);
+}
+
+.modal-content .modal-input-password,
+.modal-content-cadastro .modal-input-password {
+    position: relative;
+}
+
+.modal-content .modal-input-password i {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 25px;
+    color: rgba(150,102,160,255);
+    cursor: pointer;
+}
+
+#modal-input-password,
+#cadastro-senha,
+#cadastro-confirmar-senha {
+    padding-right: 55px;
+}
+
+.modal-submit-btn,
+.modal-submit-btn-cadastro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-submit-btn input {
+    padding: 10px 30px;
+    border: 2px solid white;
+    border-radius: 8px;
+    color: white;
+    background: rgba(150,102,160,255);
+    transition: 0.7s;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    font-weight: 500;    
+    letter-spacing: 0px;
+    margin-bottom: 20px;
+}
+
+.modal-submit-btn input:hover {
+    background: rgb(229,203,238);
+    border: 2px solid rgb(229,203,238);
+    color: rgba(150,102,160,255);
+    box-shadow: 0px 0px 5px rgb(229,203,238);
+    letter-spacing: 1px;
+}
+
+.modal-esqueceu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.modal-esqueceu a,
+.modal-ir-cadastro span,
+.modal-ir-entrar span {
+    cursor: pointer;
+    text-decoration: underline;
+    color: white;
+    opacity: 0.875;
+}
+
+.modal-esqueceu a:hover,
+.modal-ir-cadastro span:hover,
+.modal-ir-entrar span:hover {
+    opacity: 1;
+    text-shadow: 0px 0px 5px rgb(229,203,238);
+}
+
+.modal-divisao {
+    margin-bottom: 20px;
+}
+
+.modal-divisao hr {
+    color: rgba(220, 220, 220,)
+}
+
+.modal-ir-cadastro,
+.modal-ir-entrar {
+    margin-bottom: 20px;
+}
+
+.modal-ir-cadastro p,
+.modal-ir-entrar p {
+    width: 333.05px;
+    text-align: center;
+}
+
+.modal-input-erro {
+    display: none;
+}
+
+/* cadastro */
+#modal-cadastro {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    background: rgba(144,196,23,255);
+    color: white;
+    width: 500px;
+    max-width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(144,196,23,255);
+    padding-top: 10px;
+}
+
+#btn-fechar-cadastro {
+    padding: 10px 30px;
+    border: 2px solid white;
+    border-radius: 8px;
+    color: white;
+    background: rgba(144,196,23,255);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+#btn-fechar-cadastro:hover {
+    background: rgb(205,239,116);
+    border: 2px solid rgb(205,239,116);
+    color: rgba(144,196,23,255);
+    box-shadow: 0px 0px 5px rgb(205,239,116);
+}
+
+.modal-submit-btn-cadastro input {
+    padding: 10px 30px;
+    border: 2px solid white;
+    border-radius: 8px;
+    color: white;
+    background: rgba(144,196,23,255);
+    transition: 0.7s;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    font-weight: 500;    
+    letter-spacing: 0px;
+    margin-bottom: 20px;
+}
+
+.modal-submit-btn-cadastro input:hover {
+    background: rgb(205,239,116);
+    border: 2px solid rgb(205,239,116);
+    color: rgba(144,196,23,255);
+    box-shadow: 0px 0px 5px rgb(205,239,116);
+    letter-spacing: 1px;
+}
+
+.modal-content-cadastro .modal-input-password i.pass-eye {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 25px;
+    color: rgba(144,196,23,255);
+    cursor: pointer;
+}
+
+.modal-content-cadastro .modal-cadastro-input {
+    margin-bottom: 20px;
+}
+
+.modal-content-cadastro .modal-cadastro-input input {
+    outline: none;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+    background: rgb(205,239,116);
+    color: rgb(124,164,50);
+    transition: 0.3s all;
+}
+
+.modal-content-cadastro .modal-cadastro-input input:focus {
+    box-shadow: 0 0 5px rgb(205,239,116);
+}
+
+.modal-content-cadastro .modal-cadastro-input input::placeholder {
+    color: rgb(124,164,50);
+}
+
+.modal-cadastro-input-erro {
+    display: none;
+    color: white;
+    font-size: 14px;
+    max-width: 333.05px;
+}
+
+.modal-cadastro-input-erro p {
+    padding-left: 12.5px;
+    position: relative;
+}
+
+.modal-cadastro-input-erro i.list-icon {
+    font-size: 5px;
+}
+
+.modal-cadastro-input-erro p.one-line i {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.modal-cadastro-input-erro p.two-lines i {
+    position: absolute;
+    left: 5px;
+    top: 25%;
+    transform: translateY(-50%);
+}
+
+.modal-cadastro-erro-senha p {
+    display: none;
+}
 
 
 
